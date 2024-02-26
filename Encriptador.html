@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador y Desencriptador de Texto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        header {
+            background-color: #4a90e2;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            margin: 20px auto;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        textarea,
+        input[type="number"],
+        button {
+            width: calc(100% - 20px);
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #357ebd;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #4a90e2;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Encriptador y Desencriptador de Texto</h1>
+    </header>
+
+    <form id="form-encriptar">
+        <label for="texto">Texto:</label>
+        <textarea id="texto" name="texto" rows="4" placeholder="Escribe aquí tu texto..."></textarea><br>
+        <label for="desplazamiento">Desplazamiento:</label>
+        <input type="number" id="desplazamiento" name="desplazamiento" value="3" min="1" max="25"><br>
+        <button type="button" onclick="encriptarTexto()">Encriptar</button>
+        <button type="button" onclick="desencriptarTexto()">Desencriptar</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <footer>
+        Desarrollado por Jaime Mendez
+    </footer>
+
+    <script>
+        function encriptarTexto() {
+            var texto = document.getElementById('texto').value;
+            var desplazamiento = parseInt(document.getElementById('desplazamiento').value);
+            var textoEncriptado = encriptar(texto, desplazamiento);
+            document.getElementById('resultado').textContent = 'Texto encriptado: ' + textoEncriptado;
+        }
+
+        function desencriptarTexto() {
+            var textoEncriptado = document.getElementById('resultado').textContent;
+            var desplazamiento = parseInt(document.getElementById('desplazamiento').value);
+            var textoDesencriptado = desencriptar(textoEncriptado, -desplazamiento);
+            document.getElementById('resultado').textContent = 'Texto desencriptado: ' + textoDesencriptado;
+        }
+
+        function encriptar(texto, desplazamiento) {
+            var resultado = '';
+            for (var i = 0; i < texto.length; i++) {
+                var charCode = texto.charCodeAt(i);
+                if (charCode >= 65 && charCode <= 90) {
+                    resultado += String.fromCharCode((charCode - 65 + desplazamiento) % 26 + 65);
+                } else if (charCode >= 97 && charCode <= 122) {
+                    resultado += String.fromCharCode((charCode - 97 + desplazamiento) % 26 + 97);
+                } else {
+                    resultado += texto.charAt(i);
+                }
+            }
+            return resultado;
+        }
+
+        function desencriptar(texto, desplazamiento) {
+            return encriptar(texto, desplazamiento);
+        }
+    </script>
+
+</body>
+</html>
